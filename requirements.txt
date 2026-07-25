@@ -1,0 +1,11 @@
+# Core runtime: no mandatory third-party dependencies are required for the base API.
+# These extras enable the optional source integrations implemented in the package.
+
+pytest>=8.0
+pandas>=2.0
+polars>=1.0
+pyarrow>=16.0
+SQLAlchemy>=2.0
+pyspark>=3.5
+duckdb>=1.0
+ijson>=3.0

@@ -1,0 +1,22 @@
+{
+  "ikischema_contract_version": "1.0",
+  "created_at": "2026-07-25T13:58:14Z",
+  "strictness": {},
+  "columns": [
+    {
+      "name": "order_id",
+      "dtype": "int64",
+      "nullable": false
+    },
+    {
+      "name": "customer_id",
+      "dtype": "int64",
+      "nullable": false
+    },
+    {
+      "name": "total",
+      "dtype": "float64",
+      "nullable": false
+    }
+  ]
+}
