@@ -1,12 +1,29 @@
-from ikischema import infer
 import polars as pl
-from pathlib import Path
-import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ikischema import infer
 
 
-frame = pl.DataFrame(
-    {"id": [1, 2], "name": ["Ada", "Grace"], "score": [10.5, 20.0]})
-schema = infer(frame)
-print(schema)
+def main() -> None:
+    frame = pl.DataFrame(
+        {
+            "id": [1, 2, 3],
+            "name": ["Ada", "Grace", "Linus"],
+            "score": [10.5, 20.0, None],
+            "active": [True, False, True],
+        }
+    )
+
+    print("Input Polars DataFrame:")
+    print(frame)
+
+    schema = infer(frame)
+    print("\nInferred schema:")
+    print(schema)
+
+    print("\nDetailed column view:")
+    for column in schema.columns:
+        print(f"- {column.name}: dtype={column.dtype}, nullable={column.nullable}")
+
+
+if __name__ == "__main__":
+    main()

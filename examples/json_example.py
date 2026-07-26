@@ -1,14 +1,30 @@
-from ikischema import infer
+import json
 from pathlib import Path
-import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ikischema import infer
 
 
-json_path = Path("examples/sample_data.json")
-json_path.parent.mkdir(exist_ok=True)
-json_path.write_text(
-    '[{"id": 1, "name": "Ada"}, {"id": 2, "name": "Grace"}]', encoding="utf-8")
+def main() -> None:
+    json_path = Path("examples/sample_data.json")
+    json_path.parent.mkdir(exist_ok=True)
 
-schema = infer(json_path)
-print(schema)
+    payload = [
+        {"id": 1, "name": "Ada", "score": 10.5, "active": True},
+        {"id": 2, "name": "Grace", "score": None, "active": False},
+        {"id": 3, "name": "Linus", "score": 15.25, "active": True},
+    ]
+    json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    print(f"Created sample JSON at {json_path}")
+    schema = infer(json_path)
+
+    print("\nInferred schema from the JSON file:")
+    print(schema)
+
+    print("\nColumn inspection:")
+    for column in schema.columns:
+        print(f"- {column.name}: dtype={column.dtype}, nullable={column.nullable}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,3 +1,4 @@
-id,name,score
-1,Ada,10.5
-2,Grace,20.0
+id,name,score,active
+1,Ada,10.5,true
+2,Grace,20.0,false
+3,Linus,15.25,true

@@ -1,6 +1,6 @@
 {
   "ikischema_contract_version": "1.0",
-  "created_at": "2026-07-25T13:58:14Z",
+  "created_at": "2026-07-26T01:38:20Z",
   "strictness": {},
   "columns": [
     {
@@ -16,6 +16,11 @@
     {
       "name": "total",
       "dtype": "float64",
+      "nullable": false
+    },
+    {
+      "name": "status",
+      "dtype": "string",
       "nullable": false
     }
   ]

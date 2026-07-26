@@ -1,25 +1,43 @@
-from ikischema import SchemaContract, check, diff, infer
 from pathlib import Path
-import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ikischema import SchemaContract, check, diff, infer
 
 
-records = [
-    {"order_id": 1, "customer_id": 10, "total": 9.99},
-    {"order_id": 2, "customer_id": None, "total": 12.5},
-]
+def main() -> None:
+    records = [
+        {"order_id": 1, "customer_id": 10, "total": 9.99, "status": "pending"},
+        {"order_id": 2, "customer_id": None, "total": 12.5, "status": "shipped"},
+    ]
 
-schema = infer(records)
-print(schema)
+    print("Sample records used for inference:")
+    for record in records:
+        print(record)
 
-contract = SchemaContract.from_schema(schema)
-contract.save("orders_contract.json")
+    schema = infer(records)
+    print("\nInferred schema:")
+    print(schema)
 
-new_records = [{"order_id": 3, "customer_id": 12, "total": 15.0}]
-violations = check(new_records, "orders_contract.json")
-print(violations)
+    contract_path = Path("orders_contract.json")
+    contract = SchemaContract.from_schema(schema)
+    contract.save(contract_path)
+    print(f"\nContract saved to {contract_path}")
 
-schema_a = infer([{"id": 1, "name": "Ada"}])
-schema_b = infer([{"id": 1, "name": "Ada", "score": 10.5}])
-print(diff(schema_a, schema_b).summary())
+    new_records = [{"order_id": 3, "customer_id": 12,
+                    "total": 15.0, "status": "packed"}]
+    print("\nValidating a new batch of records:")
+    violations = check(new_records, contract_path)
+    if violations:
+        for violation in violations:
+            print(violation)
+    else:
+        print("No violations found.")
+
+    schema_a = infer([{"id": 1, "name": "Ada"}])
+    schema_b = infer([{"id": 1, "name": "Ada", "score": 10.5}])
+
+    print("\nSchema diff summary:")
+    print(diff(schema_a, schema_b).summary())
+
+
+if __name__ == "__main__":
+    main()
